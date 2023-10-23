@@ -5,11 +5,15 @@ Sin embargo, existen algunos temas centrales que abarcan todas las arquitecturas
 Comprender firmemente estos principios básicos de la arquitectura es clave para desarrollar una comprensión sólida de los elementos de los entornos SaaS, lo que le permitirá tener una idea del panorama de los desafíos de la arquitectura SaaS. El objetivo aquí es aportar claridad a estos conceptos e ilustrar cómo el arrendamiento múltiple extiende o altera su enfoque de sus estrategias de arquitectura existentes. Probablemente ya tenga nociones sólidas de lo que significa escalar, proteger, diseñar y operar una arquitectura sólida. Con SaaS, tenemos que observar cómo la multiinquilino influye y superpone estos conceptos clave, a menudo introduciendo nuevos principios que introducen un conjunto completamente nuevo de limitaciones y consideraciones que darán forma a la forma en que se aborda la arquitectura de una oferta SaaS.
 Agregar arrendamiento a su arquitectura
 Comencemos nuestra exploración de los conceptos de arquitectura SaaS observando una aplicación tradicional que no es SaaS. En las aplicaciones clásicas, el entorno se construye desde cero con el supuesto de que será instalado y ejecutado por clientes individuales. Básicamente, cada cliente tiene su propia huella dedicada. La Figura 2-1 proporciona una vista conceptual de cómo se podría diseñar y construir una de estas aplicaciones.
-[￼ La Figura 2-1 ](https://learning.oreilly.com/api/v2/epubs/urn:orm:book:9781098140632/files/assets/multi_tenant_architecture_fundamentals_492971_01.png)
-Figura 2-1. Entornos tradicionales no SaaS
+![image](https://github.com/f0perez/multi-tenant/assets/119543967/1b08544e-949c-4e31-9387-2942bcfea573)
+
+[￼ La Figura 2-1 ](https://learning.oreilly.com/api/v2/epubs/urn:orm:book:9781098140632/files/assets/multi_tenant_architecture_fundamentals_492971_01.png) Entornos tradicionales no SaaS
+
 Aquí a la izquierda, verá que tenemos una vista simplificada de una solicitud de clase. Aquí, esta aplicación se crea y luego se vende a clientes individuales. Estos clientes pueden instalar el software en su propio entorno o ejecutarlo en la nube. Este enfoque simplifica todo el modelo arquitectónico de este entorno. Las opciones sobre cómo los clientes ingresan al entorno, cómo acceden a nuestros recursos y cómo consumen los servicios de nuestro entorno son mucho más simples cuando sabemos que se ejecutarán en un entorno dedicado a cada cliente. La mentalidad general aquí es que tienes un software y simplemente estás eliminando copias del mismo para cada nuevo cliente.
 Ahora, pensemos en lo que significa entregar esta misma aplicación en un entorno SaaS multiinquilino. El diagrama de la Figura 2-2 proporciona una vista conceptual de cómo podría verse esto. Verá aquí que nuestros clientes, que ahora son inquilinos, consumen todos la misma aplicación.
-￼
+
+￼![image](https://github.com/f0perez/multi-tenant/assets/119543967/fcc6ef78-fe85-4ffd-849d-f60e03ec8743)
+
 [Figura 2-2](https://learning.oreilly.com/api/v2/epubs/urn:orm:book:9781098140632/files/assets/multi_tenant_architecture_fundamentals_492971_02.png). 
 
 El cambio hacia una experiencia centrada en el inquilino
@@ -19,7 +23,9 @@ Parte del desafío aquí es que existe una amplia gama de parámetros que influi
 Las dos mitades de toda arquitectura SaaS
 Si nos alejamos de los detalles de SaaS, normalmente encontramos que cada entorno SaaS, independientemente de su dominio o diseño, se puede dividir en dos mitades muy distintas. De hecho, a lo largo de toda nuestra discusión sobre SaaS en este libro, encontrará que usaremos estas dos mitades como la lente a través de la cual veremos cómo se construye, implementa y opera un sistema multiinquilino.
 La Figura 2-3 proporciona una representación conceptual de las dos mitades de SaaS. En el lado derecho del diagrama, verá lo que está etiquetado como plano de control. El plano de control es donde ubicaremos todas las construcciones, servicios y capacidades transversales que respaldan las necesidades fundamentales de un entorno SaaS multiinquilino.
-￼
+
+￼![image](https://github.com/f0perez/multi-tenant/assets/119543967/f9dae6e2-d363-4a60-88ef-cb9a2c8e2f6d)
+
 [Figura 2-3](https://learning.oreilly.com/api/v2/epubs/urn:orm:book:9781098140632/files/assets/multi_tenant_architecture_fundamentals_492971_03.png). 
 Planos de control y aplicación SaaS
 
@@ -37,14 +43,18 @@ El siguiente es un desglose de los diferentes servicios y capacidades que probab
 ### Onbording
 El plano de control es responsable de gestionar y orquestar todos los pasos necesarios para introducir un nuevo inquilino en su entorno SaaS. A primera vista, esto puede parecer un concepto simple. Sin embargo, como verá en el Capítulo 4, hay muchas partes móviles en la experiencia de incorporación. Las decisiones que tome aquí, en muchos aspectos, son fundamentales para habilitar muchos de los elementos de diseño y negocios multiinquilino de su entorno SaaS.
 En esta etapa, sigamos con una visión de alto nivel de los elementos clave de la experiencia de incorporación. En la Figura 2-4 verá una representación conceptualizada de los componentes que desempeñan un papel en la experiencia de incorporación. Aquí mostramos a un inquilino que se registra en nuestro servicio SaaS y activa el proceso de incorporación a través del plano de control. Después de esta solicitud inicial, el plano de control posee el resto del flujo de incorporación, creando y configurando nuestro inquilino y su huella de identidad correspondiente. Esto incluye asignar un identificador único a nuestro inquilino que se aprovechará en la mayoría de las partes móviles de nuestra arquitectura multiinquilino.
-￼
+
+￼![image](https://github.com/f0perez/multi-tenant/assets/119543967/1ee2f238-fdee-4c15-8226-a4a99c601ffc)
+
 [Figura 2-4](https://learning.oreilly.com/api/v2/epubs/urn:orm:book:9781098140632/files/assets/multi_tenant_architecture_fundamentals_492971_04.png). Incorporación de inquilinos
 También notará que mostramos el plano de control interactuando con el plano de la aplicación, aprovisionando y configurando cualquier recurso específico de la aplicación que pueda ser necesario para cada inquilino. Cuando entremos en vistas más detalladas de ejemplos de principios de incorporación, veremos cómo esta parte de la experiencia de incorporación puede volverse bastante complicada.
 Si bien existen temas comunes en la experiencia de incorporación, la implementación real de la incorporación puede variar significativamente según el dominio en el que se encuentre, los objetivos comerciales de su solución y la huella de la arquitectura de su aplicación. Sin embargo, la clave aquí es que la incorporación representa un concepto fundamental que se encuentra en la puerta de entrada de su experiencia SaaS. Los equipos empresariales pueden y deben tener gran interés en dar forma e influir en la forma en que aborda la construcción de este aspecto de su sistema.
 La conclusión de nivel superior aquí es que la incorporación es fundamental para crear y conectar los elementos más básicos de un entorno multiinquilino: inquilinos, usuarios, identidad y recursos de aplicaciones de inquilinos. La incorporación entrelaza estos conceptos y establece las bases para introducir el arrendamiento en todas las partes móviles de su entorno SaaS.
 ### Identidad
 A primera vista, quizás se pregunte por qué la identidad pertenece a la historia de SaaS. Es cierto que existen muchas soluciones de identidad diferentes que puede utilizar para construir su solución SaaS. Incluso podría sugerir que su proveedor de identidad pertenece de alguna manera fuera del alcance de nuestra discusión sobre el plano de control. Sin embargo, resulta que el arrendamiento múltiple y el plano de control a menudo tienen un vínculo bastante estrecho con su arquitectura SaaS. El diagrama de la Figura 2-5 proporciona una vista simplificada de cómo se aplica la identidad en entornos multiinquilino.
-￼
+
+￼![image](https://github.com/f0perez/multi-tenant/assets/119543967/9d7a5015-4436-4292-ab0d-489a3d6142a8)
+
 [Figura 2-5](https://learning.oreilly.com/api/v2/epubs/urn:orm:book:9781098140632/files/assets/multi_tenant_architecture_fundamentals_492971_05.png). Vincular usuarios a una identidad de inquilino
 A la izquierda verá la noción clásica de identidad de usuario que normalmente se asocia con la autenticación y la autorización. Es cierto que nuestro usuario de SaaS se autenticará en nuestro sistema SaaS. Sin embargo, en un entorno multiinquilino, poder autenticar a un usuario no es suficiente. Un sistema SaaS debe saber quién es usted como usuario y también debe poder vincular a ese usuario con un inquilino. De hecho, cada usuario que inicia sesión en nuestro sistema debe estar asociado de alguna manera a un inquilino.
 Esta vinculación de usuario/inquilino termina agregando un problema a la experiencia de identidad general de nuestro sistema, lo que requiere que los arquitectos y constructores desarrollen estrategias para vincular estos dos conceptos de una manera que aún se ajuste a los requisitos de su modelo de autenticación general. Esto se vuelve aún más complicado cuando empezamos a pensar en cómo podríamos admitir modelos de identidad federados en entornos multiinquilino. Veremos que cuanto más la experiencia de identidad se sale de nuestro control, más complejo y desafiante se vuelve soportar este vínculo entre usuarios e inquilinos. En algunos casos, es posible que se encuentre introduciendo construcciones para unir estos dos conceptos.
@@ -71,7 +81,9 @@ En los capítulos siguientes veremos ejemplos de trabajo del mundo real que brin
 ## Contexto del inquilino
 Uno de los conceptos más fundamentales en nuestro plano de aplicación es la noción de contexto de inquilino. El contexto del inquilino no se corresponde con ninguna estrategia o mecanismo específico. Más bien, es un concepto más amplio que pretende transmitir la idea de que nuestro plano de aplicación siempre está funcionando en el contexto de inquilinos específicos. Este contexto suele representarse como un token o alguna otra construcción que empaqueta todos los atributos de su inquilino. Un ejemplo común que usará aquí es un token web JSON (JWT) que combina su información de usuario e inquilino en una construcción que se comparte entre todas las partes móviles de su arquitectura multiinquilino. Este JWT se convierte en nuestro pasaporte para compartir información del inquilino (contexto) con cualquier servicio o código que dependa de este contexto. Es este token el que se conoce como contexto de inquilino.
 Ahora verá que este contexto de inquilino tiene una influencia directa en cómo la arquitectura de su aplicación procesa las solicitudes de inquilino. Esto puede afectar el enrutamiento, el registro, las métricas, el acceso a datos y una serie de otras construcciones que se encuentran dentro del plano de la aplicación. La Figura 2-6 proporciona una vista conceptual del contexto del inquilino en acción.
-￼
+
+￼![image](https://github.com/f0perez/multi-tenant/assets/119543967/3d20be73-f2f7-4407-b566-bb4169dc3f84)
+
 [Figura 2-6](https://learning.oreilly.com/api/v2/epubs/urn:orm:book:9781098140632/files/assets/multi_tenant_architecture_fundamentals_492971_06.png). Aplicar el contexto del inquilino
 
 El flujo de la Figura 2-6 muestra el contexto del inquilino que se aplica en los diferentes servicios y recursos que forman parte de un entorno multiinquilino. Esto comienza en el lado izquierdo del diagrama donde mis inquilinos se autentican con la identidad que se creó durante la incorporación y adquieren su contexto de inquilino. Luego, este contexto se inyecta en un servicio de mi aplicación. Este mismo contexto fluye en cada interacción posterior de mi sistema, lo que le permite adquirir y aplicar ese contexto en una variedad de casos de uso diferentes.
@@ -80,7 +92,9 @@ Como arquitecto de SaaS, esto significa que siempre debe pensar en cómo se tran
 ### Aislamiento de inquilinos
 El arrendamiento múltiple, por su propia naturaleza, se centra directamente en colocar a nuestros clientes y sus recursos en entornos donde los recursos puedan compartirse o al menos residir uno al lado del otro en entornos de infraestructura comunes. Esta realidad significa que a menudo se requiere que las soluciones multiinquilino apliquen e implementen medidas creativas para garantizar que los recursos de los inquilinos estén protegidos contra cualquier posible acceso entre inquilinos.
 Para comprender mejor los fundamentos de este concepto, veamos una vista conceptual simple de una solución que se ejecuta en nuestro plano de aplicación (que se muestra en la Figura 2-7 ).
-￼
+
+￼![image](https://github.com/f0perez/multi-tenant/assets/119543967/278d7083-20a9-4dbf-81d1-eae7ab37c470)
+
 [Figura 2-7](https://learning.oreilly.com/api/v2/epubs/urn:orm:book:9781098140632/files/assets/multi_tenant_architecture_fundamentals_492971_07.png). Implementar el aislamiento de inquilinos
 
 Aquí verá que tenemos los planos de aplicaciones más simples que ejecutan un único microservicio. Para este ejemplo, nuestra solución SaaS ha optado por crear bases de datos independientes para cada inquilino. Al mismo tiempo, nuestro microservicio comparte su cómputo con todos los inquilinos. Esto significa que nuestro microservicio puede procesar solicitudes de los inquilinos 1 y 2 simultáneamente.
@@ -95,7 +109,9 @@ Este es un tema mucho más profundo que cubriremos más extensamente en el Capí
 ### Enrutamiento de inquilinos
 En este modelo de arquitectura SaaS, el más simple, es posible que todos los inquilinos compartan sus recursos. Sin embargo, en la mayoría de los casos, su arquitectura tendrá variaciones en las que parte o toda la infraestructura de su inquilino puede estar dedicada. De hecho, no sería raro tener microservicios que se implementen por inquilino.
 El punto principal aquí es que a menudo se requiere que las arquitecturas de aplicaciones SaaS admitan una huella distribuida que tenga cualquier cantidad de recursos ejecutándose en una combinación de modelos compartidos y dedicados. La imagen de la Figura 2-8 proporciona un ejemplo simplificado de una arquitectura SaaS que admite una combinación de recursos de inquilinos compartidos y dedicados.
-￼
+
+￼![image](https://github.com/f0perez/multi-tenant/assets/119543967/8dd55a54-7d4d-42f1-8902-5be9c50d04d1)
+
 [Figura 2-8](https://learning.oreilly.com/api/v2/epubs/urn:orm:book:9781098140632/files/assets/multi_tenant_architecture_fundamentals_492971_08.png). Enrutamiento en el contexto del inquilino
 
 En este ejemplo, tenemos tres inquilinos que realizarán solicitudes para invocar operaciones en nuestros servicios de aplicaciones. En este ejemplo particular, tenemos algunos recursos compartidos y otros dedicados. A la izquierda, el inquilino 1 tiene un conjunto de servicios totalmente dedicado. Mientras tanto, en el lado derecho, verá que tenemos los servicios que utilizan los inquilinos 2 y 3. Aquí, tenga en cuenta que tenemos el producto y los servicios de calificación que comparten ambos inquilinos. Sin embargo, cada uno de estos inquilinos tiene instancias dedicadas del servicio de pedidos.
@@ -117,7 +133,9 @@ La estratificación naturalmente se superpone a nuestra discusión sobre el cont
 En algunas implementaciones de niveles, veremos que los equipos colocan esto dentro de su plano de control como un concepto de primera clase. Es cierto que la incorporación a menudo incluye la necesidad de asignar el perfil de un inquilino a un nivel determinado. Los niveles también suelen estar correlacionados con un plan de facturación, que parecería natural mantenerlo dentro del alcance del plano de control. Al mismo tiempo, los niveles también se utilizan mucho dentro del plano de aplicación. Se pueden utilizar para configurar estrategias de enrutamiento o también se puede hacer referencia a ellos como parte de la configuración de políticas de limitación. La verdadera respuesta aquí es que la estratificación tiene cabida en ambos planos. Sin embargo, probablemente me inclinaría por colocarlo en el plano de control, ya que el nivel se puede administrar y devolver mediante interacciones con el plano de control (autenticación, por ejemplo). El nivel devuelto se puede adjuntar al contexto del inquilino y aplicarse a través de ese mecanismo dentro del plano de la aplicación.
 ### Usuarios de inquilino, administrador de inquilinos y administrador del sistema
 El término "usuario" puede resultar fácilmente sobrecargado cuando hablamos de arquitectura SaaS. En un entorno multiinquilino, tenemos múltiples nociones de lo que significa ser un usuario, cada una de las cuales desempeña un papel distinto. La Figura 2-9 proporciona una vista conceptual de los diferentes tipos de usuarios que necesitará admitir en su solución multiinquilino.
-￼
+
+￼![image](https://github.com/f0perez/multi-tenant/assets/119543967/0e8dede3-f2f1-438f-bd73-775b317befb4)
+
 [Figura 2-9](https://learning.oreilly.com/api/v2/epubs/urn:orm:book:9781098140632/files/assets/multi_tenant_architecture_fundamentals_492971_09.png). Roles de usuario multiinquilino
 
 En el lado izquierdo del diagrama, verá que tenemos los roles típicos relacionados con los inquilinos. Aquí hay dos tipos distintos de roles: administradores de inquilinos y usuarios de inquilinos. Un administrador de inquilinos representa el usuario inicial de su inquilino que está incorporado al sistema. Este usuario normalmente recibe privilegios de administrador. Esto les permite acceder a la funcionalidad única de administración de aplicaciones que se utiliza para configurar, administrar y mantener construcciones a nivel de aplicación. Esto incluye la posibilidad de crear nuevos usuarios inquilinos. Un usuario inquilino representa a los usuarios que utilizan la aplicación sin ninguna capacidad administrativa. A estos usuarios también se les pueden asignar diferentes roles basados en aplicaciones que influyen en su experiencia con la aplicación.
@@ -131,6 +149,8 @@ Se puede lograr un compromiso aquí haciendo que el plano de control administre 
 Hasta ahora, hemos destacado el papel de la incorporación dentro del plano de control. También analizamos cómo el proceso de incorporación puede necesitar aprovisionar y configurar la infraestructura de aplicaciones como parte de la experiencia de incorporación. Esto plantea una pregunta importante: ¿debería el aprovisionamiento de inquilinos estar dentro del plano de control o del plano de aplicación?
 La Figura 2-10 proporciona una vista conceptual de las dos opciones. A la izquierda, verá el modelo en el que se ejecuta el aprovisionamiento de inquilinos dentro del plano de la aplicación. En este escenario, todos los elementos de la incorporación (creación de inquilinos, configuración de facturación y configuración de identidad) todavía ocurren dentro del alcance del plano de control. El paso de aprovisionamiento lo desencadena y organiza el servicio de incorporación, pero se ejecuta dentro del plano de la aplicación.
 ￼
+![image](https://github.com/f0perez/multi-tenant/assets/119543967/3d6234e6-ff1f-4343-8e15-780cd5c2295c)
+
 [Figura 2-10](https://learning.oreilly.com/api/v2/epubs/urn:orm:book:9781098140632/files/assets/multi_tenant_architecture_fundamentals_492971_10.png). Colocar el proceso de aprovisionamiento de inquilinos
 
 El enfoque alternativo se muestra en el lado derecho de este diagrama. Aquí, el aprovisionamiento de inquilinos se ejecuta desde el plano de control. Esto significa que el aprovisionamiento de inquilinos ejecutaría scripts de configuración de infraestructura que se aplican dentro del plano de la aplicación. Esto coloca todas las partes móviles de la incorporación dentro del plano de control.
